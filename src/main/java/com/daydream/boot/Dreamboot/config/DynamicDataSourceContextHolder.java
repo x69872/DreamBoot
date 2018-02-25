@@ -60,8 +60,8 @@ public class DynamicDataSourceContextHolder {
      */
     public static void useSlaveDataSource() {
         lock.lock();
-
         try {
+            log.info("使用只读数据源时通过轮循方式选择要使用的数据源...");
             int datasourceKeyIndex = counter % slaveDataSourceKeys.size();
             CONTEXT_HOLDER.set(String.valueOf(slaveDataSourceKeys.get(datasourceKeyIndex)));
             counter++;

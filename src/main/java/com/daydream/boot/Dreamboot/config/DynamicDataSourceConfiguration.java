@@ -1,6 +1,7 @@
 package com.daydream.boot.Dreamboot.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @author GaoJian
  */
 @Configuration
+@Slf4j
 public class DynamicDataSourceConfiguration {
 
     /**
@@ -40,7 +42,7 @@ public class DynamicDataSourceConfiguration {
      * @return the data source
      */
     @Bean("slaveAlpha")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.slaveAlpha")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
     public DataSource slaveAlpha() {
         return DruidDataSourceBuilder.create().build();
     }
@@ -51,7 +53,7 @@ public class DynamicDataSourceConfiguration {
      * @return the data source
      */
     @Bean("slaveBeta")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.slaveBeta")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
     public DataSource slaveBeta() {
         return DruidDataSourceBuilder.create().build();
     }
@@ -62,7 +64,7 @@ public class DynamicDataSourceConfiguration {
      * @return the data source
      */
     @Bean("slaveGamma")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.slaveGamma")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
     public DataSource slaveGamma() {
         return DruidDataSourceBuilder.create().build();
     }
@@ -90,6 +92,7 @@ public class DynamicDataSourceConfiguration {
         DynamicDataSourceContextHolder.dataSourceKeys.addAll(dataSourceMap.keySet());
 
         // 将 Slave 数据源的 key 放在集合中，用于轮循
+        log.info("将Slave数据源的 key 放在集合中，用于轮循...");
         DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(dataSourceMap.keySet());
         DynamicDataSourceContextHolder.slaveDataSourceKeys.remove(DataSourceConsts.master.name());
         return dynamicRoutingDataSource;
