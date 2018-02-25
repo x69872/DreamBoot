@@ -29,9 +29,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 
 @Slf4j
-////指定aop事务执行顺序，已保证在切换数据源的后面
-//@EnableTransactionManagement(order = 2)
-//排除数据源自动配置
 @SpringBootApplication
 @MapperScan("com.daydream.boot.Dreamboot.dao")
 @EnableScheduling()
