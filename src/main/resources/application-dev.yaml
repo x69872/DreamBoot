@@ -2,6 +2,7 @@
 server:
   context-path: /
   port: 8080
+
 spring:
   thymeleaf:
     cache: true
@@ -11,53 +12,84 @@ spring:
     encoding: utf-8
     content-type: text/html
     check-template-location: true
-#数据源
+#AOP config
+  aop:
+    proxy-target-class: true
+
+#Druid数据源
   datasource:
-    druid:
-      username: dream_boot
-      password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/dream?characterEncoding=utf8&useSSL=true
-      # 下面为连接池的补充设置，应用到上面所有数据源中# 初始化大小，最小，最大
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      # 配置获取连接等待超时的时间
-      max-wait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 1 FROM DUAL
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      # 打开PSCache，并且指定每个连接上PSCache的大小
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall,log4j
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      # 合并多个DruidDataSource的监控数据
-      #spring.datasource.useGlobalDataSourceStat=true
-      filter:
-        stat:
-          merge-sql: true
-          slow-sql-millis: 5000
-      #创建servlet注册实体
-      stat-view-servlet:
-      #设置ip白名单
-        allow: 127.0.0.1
-      #设置ip黑名单，如果allow与deny共同存在时,deny优先于allow
-        deny: false
-        login-username: admin
-        login-password: admin
-        reset-enable: false
-      web-stat-filter:
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-        url-pattern: /*
-  #配置redis数据库连接
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        # 下面为连接池的补充设置，应用到上面所有数据源中# 初始化大小，最小，最大
+        initial-size: 5
+        min-idle: 5
+        max-active: 20
+        # 配置获取连接等待超时的时间
+        max-wait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        time-between-eviction-runs-millis: 60000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 1 FROM DUAL
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat,wall,log4j2
+        # 合并多个DruidDataSource的监控数据
+        #spring.datasource.useGlobalDataSourceStat=true
+        filter:
+          stat:
+            merge-sql: true
+            slow-sql-millis: 5000
+            log-slow-sql: true
+          log4j2:
+            connection-log-enabled: true
+            enabled: true
+        #创建servlet注册实体
+        stat-view-servlet:
+        #设置ip白名单
+          allow: 127.0.0.1
+        #设置ip黑名单，如果allow与deny共同存在时,deny优先于allow
+          login-username: admin
+          login-password: admin
+          reset-enable: false
+        web-stat-filter:
+          exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+          url-pattern: /*
+        # Druid AOP config
+        aop-patterns: com.daydream.boot.Dreamboot.service.*
+        master:
+          driver-class-name: com.mysql.jdbc.Driver
+          name: master
+          url: jdbc:mysql://127.0.0.1:3306/dream?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+          username: dream_boot
+          password: Gj#1397539
+        slaveAlpha:
+          driver-class-name: com.mysql.jdbc.Driver
+          name: slaveAlpha
+          url: jdbc:mysql://127.0.0.1:3306/zentaopro?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+          username: tale
+          password: Gj#1397539
+        slaveBeta:
+          driver-class-name: com.mysql.jdbc.Driver
+          name: slaveBeta
+          url: jdbc:mysql://127.0.0.1:3306/zentaopro?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+          username: tale
+          password: Gj#1397539
+        slaveGamma:
+          driver-class-name: com.mysql.jdbc.Driver
+          name: slaveGamma
+          url: jdbc:mysql://127.0.0.1:3306/zentaopro?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+          username: tale
+          password: Gj#1397539
+
+
+
+#配置redis数据库连接
   redis:
 #    host: 127.0.0.1
     port: 6379
@@ -66,16 +98,20 @@ spring:
       max-wait: 60000
       max-idle: 20
       min-idle: 1
-    database: 0 #默认索引为0的数据库
-#mybatis配置
+      #默认索引为0的数据库
+    database: 0
+
+#Mybatis配置
 mybatis:
   mapper-locations: classpath:sqlmap/*Mapper.xml
-  type-aliases-package: com.daydream.boot.Dreamboot.model
+  type-aliases-package: com.daydream.boot.Dreamboot.dao
+logging:
+  level: debug
+  pattern:
+    level: debug
 
 
-
-
-#test yaml
+#Test yaml
 users:
     name: hangzhou2
 

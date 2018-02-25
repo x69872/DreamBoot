@@ -16,8 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
-import java.lang.reflect.Method;
-
 @Configuration
 @EnableCaching
 @Slf4j
@@ -28,21 +26,17 @@ public class RedisConfig extends CachingConfigurerSupport
     @Bean
     public KeyGenerator keyGenerator()
     {
-        return new KeyGenerator()
+        return (target, method, params) ->
         {
-            @Override
-            public Object generate(Object target, Method method, Object... params)
+            StringBuilder sb = new StringBuilder();
+            sb.append(target.getClass().getName());
+            sb.append("." + method.getName());
+            for (Object obj : params)
             {
-                StringBuilder sb = new StringBuilder();
-                sb.append(target.getClass().getName());
-                sb.append("." + method.getName());
-                for (Object obj : params)
-                {
-                    sb.append(obj.toString());
-                }
-                log.info("redis cache startup,key:" + sb.toString());
-                return sb.toString();
+                sb.append(obj.toString());
             }
+            log.info("redis cache startup,key:" + sb.toString());
+            return sb.toString();
         };
     }
 

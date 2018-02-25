@@ -1,12 +1,11 @@
 package com.daydream.boot.Dreamboot.service;
 
-import com.daydream.boot.Dreamboot.mapper.UserMapper;
-import com.daydream.boot.Dreamboot.pojo.User;
+import com.daydream.boot.Dreamboot.dao.UserMapper;
+import com.daydream.boot.Dreamboot.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,17 +14,18 @@ import java.util.List;
  */
 @Service
 @Slf4j
-@CacheConfig(cacheNames = "user")
+//@CacheConfig(cacheNames = "user")
+@Transactional(rollbackFor = Exception.class)
 public class UserService
 {
     @Autowired
-    UserMapper mapper;
+    private UserMapper userMapper;
 
-    @Cacheable(cacheNames = "selectAll")
+//    @Cacheable(cacheNames = "selectAll")
     public List<User> selectAll()
     {
 
-        return mapper.selectByExample(null);
+        return userMapper.selectByExample(null);
     }
 
 }

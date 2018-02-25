@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daydream.boot.Dreamboot.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="com.daydream.boot.Dreamboot.pojo.User">
+<mapper namespace="com.daydream.boot.Dreamboot.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.daydream.boot.Dreamboot.entity.User">
         <constructor>
             <idArg column="objectId" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -79,7 +79,7 @@
     objectId, username, password, email, telephone, sex, creationTime, createdBy, lastUpdatedTime, 
     lastUpdatedBy
   </sql>
-    <select id="selectByExample" parameterType="com.daydream.boot.Dreamboot.pojo.UserExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
@@ -103,13 +103,13 @@
     delete from user
     where objectId = #{objectid,jdbcType=BIGINT}
   </delete>
-    <delete id="deleteByExample" parameterType="com.daydream.boot.Dreamboot.pojo.UserExample">
+    <delete id="deleteByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample">
         delete from user
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.daydream.boot.Dreamboot.pojo.User">
+    <insert id="insert" parameterType="com.daydream.boot.Dreamboot.entity.User">
     insert into user (objectId, username, password, 
       email, telephone, sex, 
       creationTime, createdBy, lastUpdatedTime, 
@@ -119,7 +119,7 @@
       #{creationtime,jdbcType=TIMESTAMP}, #{createdby,jdbcType=VARCHAR}, #{lastupdatedtime,jdbcType=TIMESTAMP}, 
       #{lastupdatedby,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.daydream.boot.Dreamboot.pojo.User">
+    <insert id="insertSelective" parameterType="com.daydream.boot.Dreamboot.entity.User">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="objectid != null">
@@ -186,7 +186,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.daydream.boot.Dreamboot.pojo.UserExample"
+    <select id="countByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample"
             resultType="java.lang.Long">
         select count(*) from user
         <if test="_parameter != null">
@@ -247,7 +247,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.daydream.boot.Dreamboot.pojo.User">
+    <update id="updateByPrimaryKeySelective" parameterType="com.daydream.boot.Dreamboot.entity.User">
         update user
         <set>
             <if test="username != null">
@@ -280,7 +280,7 @@
         </set>
         where objectId = #{objectid,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.daydream.boot.Dreamboot.pojo.User">
+    <update id="updateByPrimaryKey" parameterType="com.daydream.boot.Dreamboot.entity.User">
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

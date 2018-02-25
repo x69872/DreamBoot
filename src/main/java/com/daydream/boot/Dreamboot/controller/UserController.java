@@ -1,7 +1,7 @@
 package com.daydream.boot.Dreamboot.controller;
 
 
-import com.daydream.boot.Dreamboot.pojo.User;
+import com.daydream.boot.Dreamboot.entity.User;
 import com.daydream.boot.Dreamboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,7 @@ public class UserController
 
     @Autowired
     UserService userService;
+
 
 
     /**
@@ -52,5 +53,6 @@ public class UserController
         session.setAttribute("uid", uid);
         return session.getId();
     }
+
 
 }
