@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController
+{
 
     @Autowired
     private ProductService productService;
@@ -30,22 +31,26 @@ public class ProductController {
     }
 
     @GetMapping
-    public CommonResponse getAllProduct() {
+    public CommonResponse getAllProduct()
+    {
         return ResponseUtil.generateResponse(productService.getAllProduct());
     }
 
     @PutMapping("/{id}")
-    public CommonResponse updateProduct(@PathVariable("id") Long productId, @RequestBody Product newProduct) throws ServiceException {
+    public CommonResponse updateProduct(@PathVariable("id") Long productId, @RequestBody Product newProduct) throws ServiceException
+    {
         return ResponseUtil.generateResponse(productService.update(productId, newProduct));
     }
 
     @DeleteMapping("/{id}")
-    public CommonResponse deleteProduct(@PathVariable("id") long productId) throws ServiceException {
+    public CommonResponse deleteProduct(@PathVariable("id") long productId) throws ServiceException
+    {
         return ResponseUtil.generateResponse(productService.delete(productId));
     }
 
     @PostMapping
-    public CommonResponse addProduct(@RequestBody Product newProduct) throws ServiceException {
+    public CommonResponse addProduct(@RequestBody Product newProduct) throws ServiceException
+    {
         return ResponseUtil.generateResponse(productService.add(newProduct));
     }
 }

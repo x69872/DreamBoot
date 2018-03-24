@@ -19,20 +19,23 @@ import java.util.Map;
  */
 @Configuration
 @Slf4j
-public class DynamicDataSourceConfiguration {
+public class DynamicDataSourceConfiguration
+{
 
     /**
      * master DataSource
+     *
+     * @return data source
+     *
      * @Primary 注解用于标识默认使用的 DataSource Bean，因为有5个 DataSource Bean，该注解可用于 master
      * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
-     *
      * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
-     * @return data source
      */
     @Bean("master")
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource.druid.master")
-    public DataSource master() {
+    public DataSource master()
+    {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -43,7 +46,8 @@ public class DynamicDataSourceConfiguration {
      */
     @Bean("slaveAlpha")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
-    public DataSource slaveAlpha() {
+    public DataSource slaveAlpha()
+    {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -54,7 +58,8 @@ public class DynamicDataSourceConfiguration {
      */
     @Bean("slaveBeta")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
-    public DataSource slaveBeta() {
+    public DataSource slaveBeta()
+    {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -65,7 +70,8 @@ public class DynamicDataSourceConfiguration {
      */
     @Bean("slaveGamma")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
-    public DataSource slaveGamma() {
+    public DataSource slaveGamma()
+    {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -75,7 +81,8 @@ public class DynamicDataSourceConfiguration {
      * @return the data source
      */
     @Bean("dynamicDataSource")
-    public DataSource dynamicDataSource() {
+    public DataSource dynamicDataSource()
+    {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>(4);
         dataSourceMap.put(DataSourceConsts.master.name(), master());
@@ -100,14 +107,16 @@ public class DynamicDataSourceConfiguration {
 
     /**
      * 配置 SqlSessionFactoryBean
-     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到
-     * Bean 的属性中，如果没有使用 *.xml 则可以不用该配置，否则将会产生 invalid bond statement 异常
      *
      * @return the sql session factory bean
+     *
+     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到
+     * Bean 的属性中，如果没有使用 *.xml 则可以不用该配置，否则将会产生 invalid bond statement 异常
      */
     @Bean
     @ConfigurationProperties(prefix = "mybatis")
-    public SqlSessionFactoryBean sqlSessionFactoryBean() {
+    public SqlSessionFactoryBean sqlSessionFactoryBean()
+    {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         // 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
@@ -118,7 +127,8 @@ public class DynamicDataSourceConfiguration {
      * 注入 DataSourceTransactionManager 用于事务管理
      */
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager()
+    {
         return new DataSourceTransactionManager(dynamicDataSource());
     }
 

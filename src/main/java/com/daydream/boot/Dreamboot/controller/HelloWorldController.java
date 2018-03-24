@@ -32,12 +32,13 @@ public class HelloWorldController
         return "Hello " + name;
 
     }
-    @RequestMapping(value = "/timer", method = RequestMethod.GET)
-    public  String timerTask(HttpServletRequest request)
-    {
-        timerTestService.timerTask1() ;
-        timerTestService.timerTask2() ;
 
-        return  null;
+    @RequestMapping(value = "/timer", method = RequestMethod.GET)
+    public String timerTask(HttpServletRequest request)
+    {
+        timerTestService.timerTask1();
+        timerTestService.timerTask2();
+
+        return null;
     }
 }

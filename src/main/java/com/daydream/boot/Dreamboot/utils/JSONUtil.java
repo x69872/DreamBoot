@@ -17,7 +17,8 @@ import java.text.SimpleDateFormat;
  */
 
 @Slf4j
-public class JSONUtil {
+public class JSONUtil
+{
 
 
     /**
@@ -26,7 +27,8 @@ public class JSONUtil {
      * @param object
      * @return
      */
-    public static String toJSONString(Object object) {
+    public static String toJSONString(Object object)
+    {
         String result = null;
         ObjectMapper objectMapper = new ObjectMapper();
         //set config of JSON
@@ -34,9 +36,12 @@ public class JSONUtil {
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);//allow unquoted field names
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));//set date format
 
-        try {
+        try
+        {
             result = objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e)
+        {
             log.error("Generate JSON String error!" + e.getMessage());
             e.printStackTrace();
         }

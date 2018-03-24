@@ -13,7 +13,8 @@ import java.io.IOException;
  * @date 2017-07-11 15:45
  * @Email hellowoodes@gmail.com
  */
-public class ResponseUtil {
+public class ResponseUtil
+{
 
     private static final Logger logger = LoggerFactory.getLogger(ResponseUtil.class);
 
@@ -23,16 +24,16 @@ public class ResponseUtil {
      * @param resultStatus
      * @return
      */
-    public static CommonResponse generateResponse(boolean resultStatus) {
+    public static CommonResponse generateResponse(boolean resultStatus)
+    {
         CommonResponse commonResponse = new CommonResponse();
-        if (resultStatus) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.FAIL)
-                    .setMessage(CommonConstant.DEFAULT_FAIL_MESSAGE);
+        if (resultStatus)
+        {
+            commonResponse.setCode(ResponseCode.SUCCESS).setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE);
+        }
+        else
+        {
+            commonResponse.setCode(ResponseCode.FAIL).setMessage(CommonConstant.DEFAULT_FAIL_MESSAGE);
         }
         return commonResponse;
     }
@@ -44,16 +45,16 @@ public class ResponseUtil {
      * @param resultStatus
      * @return
      */
-    public static CommonResponse generateResponse(String message, boolean resultStatus) {
+    public static CommonResponse generateResponse(String message, boolean resultStatus)
+    {
         CommonResponse commonResponse = new CommonResponse();
-        if (resultStatus) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(message);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.FAIL)
-                    .setMessage(message);
+        if (resultStatus)
+        {
+            commonResponse.setCode(ResponseCode.SUCCESS).setMessage(message);
+        }
+        else
+        {
+            commonResponse.setCode(ResponseCode.FAIL).setMessage(message);
         }
         return commonResponse;
     }
@@ -64,17 +65,16 @@ public class ResponseUtil {
      * @param data
      * @return
      */
-    public static CommonResponse generateResponse(Object data) {
+    public static CommonResponse generateResponse(Object data)
+    {
         CommonResponse commonResponse = new CommonResponse();
-        if (data != null) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE)
-                    .setData(data);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.NO_RESULT_MESSAGE);
+        if (data != null)
+        {
+            commonResponse.setCode(ResponseCode.SUCCESS).setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE).setData(data);
+        }
+        else
+        {
+            commonResponse.setCode(ResponseCode.SUCCESS).setMessage(CommonConstant.NO_RESULT_MESSAGE);
 
         }
         return commonResponse;
@@ -87,13 +87,17 @@ public class ResponseUtil {
      * @param object
      * @return
      */
-    public static HttpServletResponse handlerResponse(HttpServletResponse response, Object object) {
+    public static HttpServletResponse handlerResponse(HttpServletResponse response, Object object)
+    {
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(200);
-        try {
+        try
+        {
             response.getWriter().write(JSONUtil.toJSONString(object));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logger.error(e.getMessage());
         }
         return response;

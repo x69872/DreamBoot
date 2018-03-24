@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 @SpringBootTest
 public class DreambootApplicationTests
 {
-    private static int count=0;
+    private static int count = 0;
     protected final Logger logger = LogManager.getLogger(DreambootApplicationTests.class.getName());
     protected final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -23,12 +23,10 @@ public class DreambootApplicationTests
     public void contextLoads()
     {
         MyTask myTask = new MyTask();
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("demo-pool-%02d").build();
-        ExecutorService executorService = new ThreadPoolExecutor(18, 20,
-                3L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingDeque<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
-        for (int i = 0; i < 10; i++) {
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("demo-pool-%02d").build();
+        ExecutorService executorService = new ThreadPoolExecutor(18, 20, 3L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+        for (int i = 0; i < 10; i++)
+        {
             executorService.execute(myTask);
 
         }
@@ -36,21 +34,7 @@ public class DreambootApplicationTests
         executorService.shutdown();
         System.out.println(count);
     }
-    class MyTask implements Runnable {
 
-        @Override
-        public void run() {
-
-            System.out.println(System.currentTimeMillis() + ":Thread name:"
-                    + Thread.currentThread().getName()) ;
-            try {
-                Thread.sleep(1000);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public void threadTools()
     {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("demo-pool-%d").build();
@@ -63,8 +47,31 @@ public class DreambootApplicationTests
 
 
     }
-    public class TimerTaskThread extends Thread {
-        public TimerTaskThread(){
+
+    class MyTask implements Runnable
+    {
+
+        @Override
+        public void run()
+        {
+
+            System.out.println(System.currentTimeMillis() + ":Thread name:" + Thread.currentThread().getName());
+            try
+            {
+                Thread.sleep(1000);
+
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class TimerTaskThread extends Thread
+    {
+        public TimerTaskThread()
+        {
             super.setName("TimerTaskThread");
         }
 

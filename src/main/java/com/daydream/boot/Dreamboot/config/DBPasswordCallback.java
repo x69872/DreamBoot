@@ -26,6 +26,7 @@ public class DBPasswordCallback extends DruidPasswordCallback
         String pwd = properties.getProperty("spring.datasource.druid.password");
         if (StringUtils.isNotBlank(pwd))
         {
+            System.out.println("");
             try
             {
                 //这里的password是将jdbc.properties配置得到的密码进行解密之后的值
@@ -37,6 +38,7 @@ public class DBPasswordCallback extends DruidPasswordCallback
             catch (Exception e)
             {
                 setPassword(pwd.toCharArray());
+
             }
         }
     }
@@ -45,5 +47,5 @@ public class DBPasswordCallback extends DruidPasswordCallback
     public static void main(String[] args)
     {
 //        System.out.println(SecurityUtil.encryptDes("", key));
-    }
+}
 }

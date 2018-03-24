@@ -7,7 +7,8 @@ package com.daydream.boot.Dreamboot.utils;
  * @date 2017-07-11 15:46
  * @Email hellowoodes@gmail.com
  */
-public class CommonConstant {
+public class CommonConstant
+{
 
     /**
      * Request result message
