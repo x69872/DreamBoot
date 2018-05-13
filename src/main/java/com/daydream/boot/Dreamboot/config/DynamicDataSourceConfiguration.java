@@ -4,6 +4,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import javax.sql.XADataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,14 @@ import java.util.Map;
 @Slf4j
 public class DynamicDataSourceConfiguration
 {
+    private DataSource castXADatasource(String UniqueResourceName, DataSource dataSource)
+    {
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean() ;
+        atomikosDataSource.setUniqueResourceName(UniqueResourceName);
+        atomikosDataSource.setXaDataSource((XADataSource) dataSource);
+        atomikosDataSource.setTestQuery("SELECT 1");
+        return atomikosDataSource;
+    }
 
     /**
      * master DataSource
@@ -36,7 +46,7 @@ public class DynamicDataSourceConfiguration
     @ConfigurationProperties(prefix = "spring.datasource.druid.master")
     public DataSource master()
     {
-        return DruidDataSourceBuilder.create().build();
+        return castXADatasource("master",DruidDataSourceBuilder.create().build());
     }
 
     /**
@@ -48,7 +58,7 @@ public class DynamicDataSourceConfiguration
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
     public DataSource slaveAlpha()
     {
-        return DruidDataSourceBuilder.create().build();
+        return castXADatasource("slaveAlpha", DruidDataSourceBuilder.create().build());
     }
 
     /**
@@ -60,7 +70,7 @@ public class DynamicDataSourceConfiguration
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
     public DataSource slaveBeta()
     {
-        return DruidDataSourceBuilder.create().build();
+        return castXADatasource("slaveBeta", DruidDataSourceBuilder.create().build());
     }
 
     /**
@@ -72,7 +82,7 @@ public class DynamicDataSourceConfiguration
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
     public DataSource slaveGamma()
     {
-        return DruidDataSourceBuilder.create().build();
+        return castXADatasource("slaveGamma", DruidDataSourceBuilder.create().build());
     }
 
     /**
