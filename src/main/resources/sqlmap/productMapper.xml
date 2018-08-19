@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daydream.boot.Dreamboot.dao.ProductDao">
-    <resultMap id="baseResultMap" type="com.daydream.boot.Dreamboot.entity.Product">
+<mapper namespace="com.daydream.boot.dreamboot.dao.ProductDao">
+    <resultMap id="baseResultMap" type="com.daydream.boot.dreamboot.entity.Product">
         <id column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"></id>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="price" property="price" javaType="java.lang.Long" jdbcType="BIGINT"></result>
     </resultMap>
 
-    <select id="select" resultType="com.daydream.boot.Dreamboot.entity.Product">
+    <select id="select" resultType="com.daydream.boot.dreamboot.entity.Product">
         SELECT *
         FROM product
         WHERE id = #{id}
@@ -19,7 +19,7 @@
         FROM product
     </select>
 
-    <update id="update" parameterType="com.daydream.boot.Dreamboot.entity.Product" flushCache="true">
+    <update id="update" parameterType="com.daydream.boot.dreamboot.entity.Product" flushCache="true">
         UPDATE product
         SET name = #{name}, price = #{price}
         WHERE id = #{id}
@@ -32,7 +32,7 @@
         LIMIT 1
     </delete>
 
-    <insert id="insert" parameterType="com.daydream.boot.Dreamboot.entity.Product">
+    <insert id="insert" parameterType="com.daydream.boot.dreamboot.entity.Product">
         INSERT INTO product (name, price) VALUES (#{name}, #{price});
     </insert>
 </mapper>

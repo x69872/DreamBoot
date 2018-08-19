@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daydream.boot.Dreamboot.dao.UserMapper">
-    <resultMap id="BaseResultMap" type="com.daydream.boot.Dreamboot.entity.User">
+<mapper namespace="com.daydream.boot.dreamboot.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.daydream.boot.dreamboot.entity.User">
         <constructor>
             <idArg column="objectId" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -76,10 +76,10 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    objectId, username, password, email, telephone, sex, creationTime, createdBy, lastUpdatedTime, 
-    lastUpdatedBy
-  </sql>
-    <select id="selectByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample"
+        objectId, username, password, email, telephone, sex, creationTime, createdBy, lastUpdatedTime,
+        lastUpdatedBy
+    </sql>
+    <select id="selectByExample" parameterType="com.daydream.boot.dreamboot.entity.UserExample"
             resultMap="BaseResultMap">
         select
         <if test="distinct">
@@ -89,6 +89,9 @@
         from user
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="_parameter == null">
+            where rownum =2
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -101,26 +104,27 @@
         where objectId = #{objectid,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user
-    where objectId = #{objectid,jdbcType=BIGINT}
-  </delete>
-    <delete id="deleteByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample">
+        DELETE FROM user
+        WHERE objectId = #{objectid,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.daydream.boot.dreamboot.entity.UserExample">
         delete from user
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.daydream.boot.Dreamboot.entity.User">
-    insert into user (objectId, username, password, 
-      email, telephone, sex, 
-      creationTime, createdBy, lastUpdatedTime, 
-      lastUpdatedBy)
-    values (#{objectid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=DECIMAL}, #{sex,jdbcType=CHAR}, 
-      #{creationtime,jdbcType=TIMESTAMP}, #{createdby,jdbcType=VARCHAR}, #{lastupdatedtime,jdbcType=TIMESTAMP}, 
-      #{lastupdatedby,jdbcType=VARCHAR})
-  </insert>
-    <insert id="insertSelective" parameterType="com.daydream.boot.Dreamboot.entity.User">
+    <insert id="insert" parameterType="com.daydream.boot.dreamboot.entity.User">
+        INSERT INTO user (objectId, username, password,
+                          email, telephone, sex,
+                          creationTime, createdBy, lastUpdatedTime,
+                          lastUpdatedBy)
+        VALUES (#{objectid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=DECIMAL}, #{sex,jdbcType=CHAR},
+                #{creationtime,jdbcType=TIMESTAMP}, #{createdby,jdbcType=VARCHAR},
+                #{lastupdatedtime,jdbcType=TIMESTAMP},
+                #{lastupdatedby,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.daydream.boot.dreamboot.entity.User">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="objectid != null">
@@ -187,7 +191,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.daydream.boot.Dreamboot.entity.UserExample"
+    <select id="countByExample" parameterType="com.daydream.boot.dreamboot.entity.UserExample"
             resultType="java.lang.Long">
         select count(*) from user
         <if test="_parameter != null">
@@ -248,7 +252,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.daydream.boot.Dreamboot.entity.User">
+    <update id="updateByPrimaryKeySelective" parameterType="com.daydream.boot.dreamboot.entity.User">
         update user
         <set>
             <if test="username != null">
@@ -281,17 +285,17 @@
         </set>
         where objectId = #{objectid,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.daydream.boot.Dreamboot.entity.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=DECIMAL},
-      sex = #{sex,jdbcType=CHAR},
-      creationTime = #{creationtime,jdbcType=TIMESTAMP},
-      createdBy = #{createdby,jdbcType=VARCHAR},
-      lastUpdatedTime = #{lastupdatedtime,jdbcType=TIMESTAMP},
-      lastUpdatedBy = #{lastupdatedby,jdbcType=VARCHAR}
-    where objectId = #{objectid,jdbcType=BIGINT}
-  </update>
+    <update id="updateByPrimaryKey" parameterType="com.daydream.boot.dreamboot.entity.User">
+        UPDATE user
+        SET username        = #{username,jdbcType=VARCHAR},
+            password        = #{password,jdbcType=VARCHAR},
+            email           = #{email,jdbcType=VARCHAR},
+            telephone       = #{telephone,jdbcType=DECIMAL},
+            sex             = #{sex,jdbcType=CHAR},
+            creationTime    = #{creationtime,jdbcType=TIMESTAMP},
+            createdBy       = #{createdby,jdbcType=VARCHAR},
+            lastUpdatedTime = #{lastupdatedtime,jdbcType=TIMESTAMP},
+            lastUpdatedBy   = #{lastupdatedby,jdbcType=VARCHAR}
+        WHERE objectId = #{objectid,jdbcType=BIGINT}
+    </update>
 </mapper>
